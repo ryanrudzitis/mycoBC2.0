@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { MonthsAvailable } from "./MonthsAvailable";
@@ -61,16 +61,53 @@ export const Modal = (props) => {
     return output;
   }
 
-  function showDeleteConfirmation(props) {
+  function showDeleteConfirmation() {
     let id = props.record._id;
     let name = props.record.name;
 
-    document.getElementById("my_modal_5").showModal();
+    document.getElementById("modal-" + id).showModal();
+  }
+
+  async function deleteRecord() {
+    let id = props.record._id;
+    console.log("trying to delete: ", id);
+
+    await fetch(`http://localhost:5001/${id}`, {
+      method: "DELETE",
+    })
+      .catch((error) => {
+        window.alert(error);
+        return;
+      })
+      .then((response) => {
+        window.location.reload();
+      });
   }
 
   return (
     <>
-      
+      <dialog id={"modal-" + props.record._id} className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-red-600">
+            Delete Confirmation
+          </h3>
+          <p className="py-4">
+            Are you sure you want to delete {props.record.name}?
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                className="btn btn-error mr-2"
+                onClick={() => deleteRecord()}
+              >
+                Delete
+              </button>
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
       <div className="flex flex-col min-h-[416px] h-96 w-64 bg-green-200 shadow-2xl z-[3] shadow-white/100">
         <div ref={imageRef} className="h-48 w-full image relative">
           <button
