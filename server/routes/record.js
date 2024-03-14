@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const process = require('process')
 const path = require('path');
+const fs = require('fs');
 
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
@@ -104,12 +105,22 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 });
 
 // This section will help you delete a record
-recordRoutes.route("/:id").delete((req, response) => {
+recordRoutes.route("/:id").delete(async (req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
+  let img = req.body.img;
+  
   db_connect.collection("mushrooms").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
-    console.log("1 document deleted");
+    // now use fs.unlink to delete the image from the public folder
+    const imgPath = path.join(process.cwd(), '..', 'client', 'public', img);
+    fs.unlink(imgPath, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log("file deleted");
+    });
     response.json(obj);
   });
 });

@@ -51,7 +51,7 @@ export const Modal = (props) => {
   }
 
   function convertArray(input) {
-    var inputArray = input.split(", ");
+    let inputArray = input.split(", ");
     let output = [];
 
     for (let i = 0; i < inputArray.length; i++) {
@@ -63,30 +63,15 @@ export const Modal = (props) => {
 
   function showDeleteConfirmation() {
     let id = props.record._id;
-    let name = props.record.name;
-
     document.getElementById("modal-" + id).showModal();
-  }
-
-  async function deleteRecord() {
-    let id = props.record._id;
-    console.log("trying to delete: ", id);
-
-    await fetch(`http://localhost:5001/${id}`, {
-      method: "DELETE",
-    })
-      .catch((error) => {
-        window.alert(error);
-        return;
-      })
-      .then((response) => {
-        window.location.reload();
-      });
   }
 
   return (
     <>
-      <dialog id={"modal-" + props.record._id} className="modal modal-bottom sm:modal-middle">
+      <dialog
+        id={"modal-" + props.record._id}
+        className="modal modal-bottom sm:modal-middle"
+      >
         <div className="modal-box">
           <h3 className="font-bold text-lg text-red-600">
             Delete Confirmation
@@ -99,7 +84,7 @@ export const Modal = (props) => {
               {/* if there is a button in form, it will close the modal */}
               <button
                 className="btn btn-error mr-2"
-                onClick={() => deleteRecord()}
+                onClick={() => props.deleteRecord(props.record._id, props.record.img)}
               >
                 Delete
               </button>
@@ -110,31 +95,35 @@ export const Modal = (props) => {
       </dialog>
       <div className="flex flex-col min-h-[416px] h-96 w-64 bg-green-200 shadow-2xl z-[3] shadow-white/100">
         <div ref={imageRef} className="h-48 w-full image relative">
-          <button
-            className="btn btn-circle btn-sm absolute focus:outline-none bg-white opacity-70"
-            onClick={() => showDeleteConfirmation(props)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <div className="absolute top-0 left-0 flex flex-col gap-1 m-1">
+            <button
+              className="btn btn-circle btn-sm  focus:outline-none bg-white opacity-70"
+              onClick={() => showDeleteConfirmation()}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-          <Link to={`/edit/${props.record._id}`}>
-            <button className="btn btn-circle btn-sm absolute top-[33px] focus:outline-none bg-white opacity-70">
-              <GoPencil />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
             </button>
-          </Link>
-          <img src={props.record.img} className="h-48 w-full" />
+            <div>
+              <Link to={`/edit/${props.record._id}`}>
+                <button className="btn btn-circle btn-sm  focus:outline-none bg-white opacity-70">
+                  <GoPencil />
+                </button>
+              </Link>
+            </div>
+          </div>
+          <img src={props.record.img} alt="" className="h-48 w-full" />
         </div>
         <div ref={edibleText} className="hidden p-3 shrink-0 h-48 edible">
           {props.record.edible}

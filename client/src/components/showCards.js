@@ -1,27 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "./Modal.js";
-
-// const Record = (props) => (
-//   <>
-//     <Modal />
-//     <tr>
-//       <td>{props.record.nam}</td>
-//       <td>{props.record.binomial}</td>
-//       <td>{props.record.edible}</td>
-//       <td>
-//         <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-//         <button className="btn btn-link"
-//           onClick={() => {
-//             props.deleteRecord(props.record._id);
-//           }}
-//         >
-//           Delete
-//         </button>
-//       </td>
-//     </tr>
-//   </>
-// );
+import { Trees } from "./trees.js";
+// const fs = require("fs");
+// const path = require("path");
 
 export default function ShowCards() {
   const [records, setRecords] = useState([]);
@@ -43,14 +25,18 @@ export default function ShowCards() {
     }
 
     getRecords();
-
-    return;
   }, [records.length]);
 
   // This method will delete a record
-  async function deleteRecord(id) {
+  async function deleteRecord(id, img) {
     await fetch(`http://localhost:5001/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ img }) // JSON request body
+    }).then(async (response) => {
+        
     });
 
     const newRecords = records.filter((el) => el._id !== id);
@@ -63,7 +49,7 @@ export default function ShowCards() {
       return (
         <Modal
           record={record}
-          deleteRecord={() => deleteRecord(record._id)}
+          deleteRecord={() => deleteRecord(record._id, record.img)}
           key={record._id}
         />
       );
@@ -74,19 +60,22 @@ export default function ShowCards() {
 
   const styles = {
     backgroundImage: `url(/trees.jpg)`,
-    backgroundPosition: 'fixed',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
+    backgroundPosition: "fixed",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundAttachment: "fixed",
     height: "100%",
-    filter: "blur(5px)"
+    filter: "blur(5px)",
+    // backdropFilter: "blur(5px)"
   };
 
   return (
     <>
       <div className="relative">
-        <div style={styles} className="absolute top-0 right-0 bottom-0 left-0">
-        </div>
+        <div
+          style={styles}
+          className="absolute top-0 right-0 bottom-0 left-0"
+        ></div>
         <div className="shrink-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center border gap-3 px-[2%] py-4 bg-img">
           {showCards()}
         </div>
