@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { MonthsAvailable } from "./MonthsAvailable";
 import { GiForkKnifeSpoon } from "react-icons/gi";
 import { IoSkullOutline } from "react-icons/io5";
@@ -6,26 +6,26 @@ import { GoPencil } from "react-icons/go";
 import { Link } from "react-router-dom";
 
 export const MushroomCard = (props) => {
-  const edibleText = useRef(null);
-  const poisonousText = useRef(null);
-  const imageRef = useRef(null);
+  const [showEdibleText, setShowEdibleText] = useState(false);
+  const [showPoisonousText, setShowPoisonousText] = useState(false);
+  const [showImage, setShowImage] = useState(true);
 
   function onHover(trait) {
     if (trait === "edible") {
-      edibleText.current.style.display = "block";
-      poisonousText.current.style.display = "none";
-      imageRef.current.style.display = "none";
+      setShowImage(false);
+      setShowEdibleText(true);
+      setShowPoisonousText(false);
     } else if (trait === "poisonous") {
-      edibleText.current.style.display = "none";
-      poisonousText.current.style.display = "block";
-      imageRef.current.style.display = "none";
+      setShowImage(false);
+      setShowEdibleText(false);
+      setShowPoisonousText(true);
     }
   }
 
   function onLeave() {
-    edibleText.current.style.display = "none";
-    poisonousText.current.style.display = "none";
-    imageRef.current.style.display = "block";
+    setShowImage(true);
+    setShowEdibleText(false);
+    setShowPoisonousText(false);
   }
 
   function convertMonthToNumber(month) {
@@ -80,7 +80,9 @@ export const MushroomCard = (props) => {
               {/* if there is a button in form, it will close the modal */}
               <button
                 className="btn btn-error mr-2"
-                onClick={() => props.deleteRecord(props.record._id, props.record.img)}
+                onClick={() =>
+                  props.deleteRecord(props.record._id, props.record.img)
+                }
               >
                 Delete
               </button>
@@ -90,7 +92,9 @@ export const MushroomCard = (props) => {
         </div>
       </dialog>
       <div className="flex flex-col min-h-[416px] h-96 w-64 bg-green-200 shadow-2xl z-[3] shadow-white/100">
-        <div ref={imageRef} className="h-48 w-full image relative">
+        <div
+          className={`${showImage ? "block" : "hidden"} h-48 w-full relative`}
+        >
           <div className="absolute top-0 left-0 flex flex-col gap-1 m-1">
             <button
               className="btn btn-circle btn-sm  focus:outline-none bg-white opacity-70"
@@ -111,22 +115,29 @@ export const MushroomCard = (props) => {
                 />
               </svg>
             </button>
-            <div>
-              <Link to={`/edit/${props.record._id}`}>
-                <button className="btn btn-circle btn-sm  focus:outline-none bg-white opacity-70">
-                  <GoPencil />
-                </button>
-              </Link>
-            </div>
+            <Link to={`/edit/${props.record._id}`}>
+              <button className="btn btn-circle btn-sm  focus:outline-none bg-white opacity-70">
+                <GoPencil />
+              </button>
+            </Link>
           </div>
           <img src={props.record.img} alt="" className="h-48 w-full" />
         </div>
-        <div ref={edibleText} className="hidden p-3 shrink-0 h-48 edible">
+
+        <div
+          className={`${showEdibleText ? "block" : "hidden"} p-3 shrink-0 h-48`}
+        >
           {props.record.edible}
         </div>
-        <div ref={poisonousText} className="hidden p-3 shrink-0 h-48 poisonous">
+
+        <div
+          className={`${
+            showPoisonousText ? "block" : "hidden"
+          } p-3 shrink-0 h-48`}
+        >
           {props.record.poisonous}
         </div>
+
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col railway">
             <h4 className="text-2xl text-center self-center m-0 font-bold">
