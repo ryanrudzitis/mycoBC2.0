@@ -4,6 +4,7 @@ import { GiForkKnifeSpoon } from "react-icons/gi";
 import { IoSkullOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
 import { Link } from "react-router-dom";
+import { DeleteModal } from "./DeleteModal";
 
 export const MushroomCard = (props) => {
   const [showEdibleText, setShowEdibleText] = useState(false);
@@ -64,33 +65,12 @@ export const MushroomCard = (props) => {
 
   return (
     <>
-      <dialog
-        id={"modal-" + props.record._id}
-        className="modal modal-bottom sm:modal-middle"
-      >
-        <div className="modal-box">
-          <h3 className="font-bold text-lg text-red-600">
-            Delete Confirmation
-          </h3>
-          <p className="py-4">
-            Are you sure you want to delete {props.record.name}?
-          </p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button
-                className="btn btn-error mr-2"
-                onClick={() =>
-                  props.deleteRecord(props.record._id, props.record.img)
-                }
-              >
-                Delete
-              </button>
-              <button className="btn">Cancel</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <DeleteModal
+        id={props.record._id}
+        name={props.record.name}
+        deleteRecord={props.deleteRecord}
+        img={props.record.img}
+      />
       <div className="flex flex-col min-h-[416px] h-96 w-64 bg-green-200 shadow-2xl z-[3] shadow-white/100">
         <div
           className={`${showImage ? "block" : "hidden"} h-48 w-full relative`}
