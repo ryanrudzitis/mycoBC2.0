@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import { API_URL } from "../constants";
 
 export default function Create() {
   const [form, setForm] = useState({
@@ -35,7 +36,7 @@ export default function Create() {
     console.log("img: ", img);
 
     // add new record to the database
-    await fetch("http://localhost:5001/record/add", {
+    await fetch(`${API_URL}/record/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +48,7 @@ export default function Create() {
     });
 
     // upload image to public folder
-    await fetch("http://localhost:5001/uploadImage", {
+    await fetch(`${API_URL}/uploadImage`, {
       method: "POST",
       body: new FormData(e.target),
     })

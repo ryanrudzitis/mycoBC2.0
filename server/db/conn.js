@@ -5,6 +5,8 @@ const client = new MongoClient(Db, {
   useUnifiedTopology: true,
 });
 
+const DB_NAME = "mushroomDatabase";
+
 var _db;
 
 module.exports = {
@@ -12,7 +14,7 @@ module.exports = {
     client.connect(function (err, db) {
       // Verify we got a good "db" object
       if (db) {
-        _db = db.db("mushroomDatabase");
+        _db = db.db(DB_NAME);
         console.log("Successfully connected to MongoDB.");
       }
       return callback(err);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MushroomCard } from "./MushroomCard.js";
+import { API_URL } from "../constants.js";
 
 export default function ShowCards() {
   const [records, setRecords] = useState([]);
@@ -7,7 +8,7 @@ export default function ShowCards() {
   // This method fetches the records from the database.
   useEffect(() => {
     async function getRecords() {
-      const response = await fetch(`http://localhost:5001/record/`);
+      const response = await fetch(`${API_URL}/record/`);
 
       if (!response.ok) {
         const message = `An error occurred: ${response.statusText}`;
@@ -28,7 +29,7 @@ export default function ShowCards() {
    * @param {string} img - The path to the image to delete.
    */
   async function deleteRecord(id, img) {
-    await fetch(`http://localhost:5001/${id}`, {
+    await fetch(`${API_URL}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
+import { API_URL } from "../constants";
 
 export default function Edit() {
   const [form, setForm] = useState({
@@ -21,7 +22,7 @@ export default function Edit() {
     async function fetchData() {
       const id = params.id.toString();
       const response = await fetch(
-        `http://localhost:5001/record/${params.id.toString()}`
+        `${API_URL}/record/${params.id.toString()}`
       );
 
       if (!response.ok) {
@@ -69,7 +70,7 @@ export default function Edit() {
     };
 
     // This will send a post request to update the data in the database.
-    await fetch(`http://localhost:5001/update/${params.id}`, {
+    await fetch(`${API_URL}/update/${params.id}`, {
       method: "POST",
       body: JSON.stringify(editedMushroom),
       headers: {

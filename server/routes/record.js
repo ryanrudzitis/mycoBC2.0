@@ -20,10 +20,10 @@ const cwd = process.cwd();
 
 // Navigate up one directory level from the current working directory
 const parentDir = path.join(cwd, '..');
+const COLLECTION = "mushrooms";
 
 // Access the client/public directory relative to the parent directory
 const imgFolder = path.join(parentDir, 'client', 'public');
-console.log("imgFolder: ", imgFolder);
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, imgFolder)
@@ -39,7 +39,7 @@ var upload = multer({ storage: storage })
 recordRoutes.route("/record").get(function (req, res) {
   let db_connect = dbo.getDb("employees");
   db_connect
-    .collection("mushrooms")
+    .collection(COLLECTION)
     .find({})
     .toArray(function (err, result) {
       if (err) throw err;
@@ -51,7 +51,7 @@ recordRoutes.route("/record").get(function (req, res) {
 recordRoutes.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
   db_connect
-    .collection("mushrooms")
+    .collection(COLLECTION)
     .findOne({ _id: ObjectId(req.params.id) }, function (err, result) {
       if (err) throw err;
       res.json(result);
@@ -77,7 +77,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
     availability: req.body.availability,
     img: req.body.img,
   };
-  db_connect.collection("mushrooms").insertOne(myObj, function (err, res) {
+  db_connect.collection(COLLECTION).insertOne(myObj, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
@@ -97,7 +97,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
       // img: req.body.img,
     },
   };
-  db_connect.collection("mushrooms").updateOne(id, newValues, function (err, res) {
+  db_connect.collection(COLLECTION).updateOne(id, newValues, function (err, res) {
     if (err) throw err;
     response.json(res);
   });
@@ -109,7 +109,7 @@ recordRoutes.route("/:id").delete(async (req, response) => {
   let myquery = { _id: ObjectId(req.params.id) };
   let img = req.body.img;
 
-  db_connect.collection("mushrooms").deleteOne(myquery, function (err, obj) {
+  db_connect.collection(COLLECTION).deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     // now use fs.unlink to delete the image from the public folder
     const imgPath = path.join(process.cwd(), '..', 'client', 'public', img);
