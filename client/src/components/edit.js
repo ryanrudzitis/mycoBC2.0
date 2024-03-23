@@ -14,6 +14,9 @@ export default function Edit() {
   const params = useParams();
   const navigate = useNavigate();
 
+  /**
+   * This useEffect will fetch the record being edited by id.
+   */
   useEffect(() => {
     async function fetchData() {
       const id = params.id.toString();
@@ -38,17 +41,23 @@ export default function Edit() {
     }
 
     fetchData();
-
-    return;
   }, [params.id, navigate]);
 
-  // These methods will update the state properties.
+  /**
+   * This method will update the state properties.
+   * @param {object} value - The value to update the state with.
+   * @returns {object} - The updated state.
+   */
   function updateForm(value) {
     return setForm((prev) => {
       return { ...prev, ...value };
     });
   }
 
+  /**
+   * This method will handle the form submission.
+   * @param {object} e - The event object.
+   */
   async function onSubmit(e) {
     e.preventDefault();
     const editedMushroom = {
@@ -57,7 +66,6 @@ export default function Edit() {
       edible: form.edible,
       poisonous: form.poisonous,
       availability: form.availability,
-      // img: form.img,
     };
 
     // This will send a post request to update the data in the database.
@@ -73,6 +81,7 @@ export default function Edit() {
   }
 
   // This following section will display the form that takes input from the user to update the data.
+  // NOTE: Cannot edit the image in this form.
   return (
     <div className="container md:mt-5 lg:w-1/2 md:border p-4 md:rounded-md shadow-lg bg-green-600">
       <h3 className="text-xl">Edit Mushroom</h3>
@@ -148,24 +157,6 @@ export default function Edit() {
               onChange={(e) => updateForm({ availability: e.target.value })}
             />
           </label>
-          {/* <label
-            htmlFor="img"
-            className="input input-bordered flex items-center gap-2"
-          >
-            Image
-            <input
-              type="file"
-              className="grow"
-              id="img"
-              name="mushroom_img"
-              required
-              onChange={(e) => {
-                // get the file name
-                const imgName = e.target.files[0].name;
-                updateForm({ img: imgName });
-              }}
-            />
-          </label> */}
           <input
             type="submit"
             value="Save changes"

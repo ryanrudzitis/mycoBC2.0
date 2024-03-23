@@ -62,7 +62,6 @@ recordRoutes
   .route("/uploadImage")
   .post(upload.single("mushroom_img"), function (req, res) {
     console.log(req);
-    console.log("in uploadImage");
     var response = "<br>image uploaded successfully</br>";
     return res.send(response);
   });
@@ -109,7 +108,7 @@ recordRoutes.route("/:id").delete(async (req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let img = req.body.img;
-  
+
   db_connect.collection("mushrooms").deleteOne(myquery, function (err, obj) {
     if (err) throw err;
     // now use fs.unlink to delete the image from the public folder
@@ -119,7 +118,6 @@ recordRoutes.route("/:id").delete(async (req, response) => {
         console.error(err);
         return;
       }
-      console.log("file deleted");
     });
     response.json(obj);
   });

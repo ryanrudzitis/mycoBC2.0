@@ -11,6 +11,10 @@ export const MushroomCard = (props) => {
   const [showPoisonousText, setShowPoisonousText] = useState(false);
   const [showImage, setShowImage] = useState(true);
 
+  /**
+   * This method will show the edible or poisonous text when the user hovers over the image.
+   * @param {string} trait - The trait to show text for.
+   */
   function onHover(trait) {
     if (trait === "edible") {
       setShowImage(false);
@@ -23,41 +27,20 @@ export const MushroomCard = (props) => {
     }
   }
 
+  /**
+   * This method will hide the edible or poisonous text when the user stops hovering over the image.
+   * It will also show the image again.
+   * @param {string} trait - The trait to hide text for.
+   */
   function onLeave() {
     setShowImage(true);
     setShowEdibleText(false);
     setShowPoisonousText(false);
   }
 
-  function convertMonthToNumber(month) {
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    return months.indexOf(month) + 1;
-  }
-
-  function convertArray(input) {
-    let inputArray = input.split(", ");
-    let output = [];
-
-    for (let i = 0; i < inputArray.length; i++) {
-      output[i] = convertMonthToNumber(inputArray[i]);
-    }
-    return output;
-  }
-
+  /**
+   * This method will show the delete confirmation modal.
+   */
   function showDeleteConfirmation() {
     let id = props.record._id;
     document.getElementById("modal-" + id).showModal();
@@ -152,7 +135,7 @@ export const MushroomCard = (props) => {
             </div>
           </div>
           <div className="justify-self-end">
-            <MonthsAvailable months={convertArray(props.record.availability)} />
+            <MonthsAvailable months={props.record.availability} />
           </div>
         </div>
       </div>

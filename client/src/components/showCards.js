@@ -22,7 +22,11 @@ export default function ShowCards() {
     getRecords();
   }, [records.length]);
 
-  // This method will delete a record
+  /**
+   * This method will delete a record from the database.
+   * @param {string} id - The id of the record to delete.
+   * @param {string} img - The path to the image to delete.
+   */
   async function deleteRecord(id, img) {
     await fetch(`http://localhost:5001/${id}`, {
       method: "DELETE",
@@ -38,7 +42,10 @@ export default function ShowCards() {
     setRecords(newRecords);
   }
 
-  // This method will map out the records on the table
+  /**
+   * This method will show the cards on the page.
+   * @returns {object} - The cards to show.
+   */
   function showCards() {
     return records.map((record) => {
       return (

@@ -12,14 +12,21 @@ export default function Create() {
   });
   const navigate = useNavigate();
 
-  // These methods will update the state properties.
+  /**
+   * This method will update the state properties.
+   * @param {object} value - The value to update the state with.
+   * @returns {object} - The updated state.
+   */
   function updateForm(value) {
     return setForm((prev) => {
       return { ...prev, ...value };
     });
   }
 
-  // This function will handle the submission.
+  /**
+   * This method will handle the form submission.
+   * @param {object} e - The event object.
+   */
   async function onSubmit(e) {
     e.preventDefault();
     const newMushroom = { ...form };
