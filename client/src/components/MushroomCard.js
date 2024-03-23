@@ -1,14 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import React, { useRef } from "react";
 import { MonthsAvailable } from "./MonthsAvailable";
 import { GiForkKnifeSpoon } from "react-icons/gi";
 import { IoSkullOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
-import "../index.css";
 import { Link } from "react-router-dom";
 
-export const Modal = (props) => {
+export const MushroomCard = (props) => {
   const edibleText = useRef(null);
   const poisonousText = useRef(null);
   const imageRef = useRef(null);
@@ -57,7 +54,6 @@ export const Modal = (props) => {
     for (let i = 0; i < inputArray.length; i++) {
       output[i] = convertMonthToNumber(inputArray[i]);
     }
-    // console.log(output);
     return output;
   }
 

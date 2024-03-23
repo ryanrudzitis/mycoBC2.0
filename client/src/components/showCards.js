@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Modal } from "./Modal.js";
-import { Trees } from "./trees.js";
-// const fs = require("fs");
-// const path = require("path");
+import { MushroomCard } from "./MushroomCard.js";
 
 export default function ShowCards() {
   const [records, setRecords] = useState([]);
@@ -36,7 +32,7 @@ export default function ShowCards() {
       },
       body: JSON.stringify({ img }) // JSON request body
     }).then(async (response) => {
-        
+
     });
 
     const newRecords = records.filter((el) => el._id !== id);
@@ -47,7 +43,7 @@ export default function ShowCards() {
   function showCards() {
     return records.map((record) => {
       return (
-        <Modal
+        <MushroomCard
           record={record}
           deleteRecord={() => deleteRecord(record._id, record.img)}
           key={record._id}
@@ -55,8 +51,6 @@ export default function ShowCards() {
       );
     });
   }
-
-  // This following section will display the table with the records of individuals.
 
   const styles = {
     backgroundImage: `url(/trees.jpg)`,
@@ -66,7 +60,6 @@ export default function ShowCards() {
     backgroundAttachment: "fixed",
     height: "100%",
     filter: "blur(5px)",
-    // backdropFilter: "blur(5px)"
   };
 
   return (
