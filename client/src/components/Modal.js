@@ -88,7 +88,7 @@ export const Modal = (props) => {
               >
                 Delete
               </button>
-              <button className="btn">Close</button>
+              <button className="btn">Cancel</button>
             </form>
           </div>
         </div>

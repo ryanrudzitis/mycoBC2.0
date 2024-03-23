@@ -72,20 +72,10 @@ export default function Edit() {
     navigate("/");
   }
 
-  const styles = {
-    backgroundImage: `url(/trees.jpg)`,
-    backgroundPosition: "fixed",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundAttachment: "fixed",
-    height: "100%",
-    filter: "blur(5px)",
-  };
-
   // This following section will display the form that takes input from the user to update the data.
   return (
-    <div className="container mt-5 w-1/2 mx-auto border p-4 rounded-md shadow-lg">
-      <h3>Edit Mushroom</h3>
+    <div className="container md:mt-5 lg:w-1/2 md:border p-4 md:rounded-md shadow-lg bg-green-600">
+      <h3 className="text-xl">Edit Mushroom</h3>
       <form onSubmit={onSubmit} encType="multipart/form-data">
         <div className="flex flex-col gap-2 mt-3">
           <label
